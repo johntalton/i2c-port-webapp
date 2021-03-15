@@ -1,0 +1,20 @@
+name: CI
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  Deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2.1.5
+      - run: npm i
+      - run: npm run build --if-present
+      - run: npm run format --if-present
+      - uses: actions/upload-artifact@v2
+        with:
+          name: static-site
+          path: web
+          retention-days: 1
