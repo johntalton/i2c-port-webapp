@@ -1,0 +1,131 @@
+{
+    "name": "@johntalton/i2c-port-webapp-service",
+    "version": "0.0.1",
+    "description": "",
+    "main": "./index.js",
+    "exports": {
+        "import": "./index.js"
+    },
+    "type": "module",
+    "files": [
+        "index.js",
+        "utils/**/*.js",
+        "workers/**/*.js"
+    ],
+    "dependencies": {
+        "@johntalton/and-other-delights": "github:johntalton/and-other-delights#module",
+        "@johntalton/i2c-bus-mcp2111": "file:../../i2c-bus-mcp2221",
+        "@johntalton/i2c-port": "file:../../i2c-port",
+        "@johntalton/mcp2221": "file:../../mcp2221",
+        "express": "^4.17.1",
+        "i2c-bus": "^5.2.1",
+        "morgan": "^1.10.0",
+        "node-hid": "^2.1.1",
+        "ws": "^7.4.0"
+    },
+    "devDependencies": {
+        "@johntalton/eslint-config": "^2.0.0",
+        "@types/chai": "^4.2.14",
+        "@types/i2c-bus": "^5.1.0",
+        "@types/mocha": "^8.2.0",
+        "@types/node": "^14.14.10",
+        "c8": "^7.3.5",
+        "chai": "^4.2.0",
+        "eslint": "^7.15.0",
+        "eslint-plugin-fp": "^2.3.0",
+        "eslint-plugin-functional": "^3.1.0",
+        "eslint-plugin-immutable": "^1.0.0",
+        "eslint-plugin-import": "^2.22.1",
+        "eslint-plugin-mocha": "^8.0.0",
+        "eslint-plugin-no-loops": "^0.3.0",
+        "eslint-plugin-no-use-extend-native": "^0.5.0",
+        "eslint-plugin-promise": "^4.2.1",
+        "eslint-plugin-security": "^1.4.0",
+        "eslint-plugin-spellcheck": "^0.0.17",
+        "mocha": "^8.2.1",
+        "nodemon": "^2.0.6"
+    },
+    "scripts": {
+        "lint": "./node_modules/.bin/eslint --no-inline-config --report-unused-disable-directives *.jss",
+        "test": "mocha",
+        "coverage": "c8 --check-coverage --all --lines 75 --functions 5 --branches 85 --include=**/*.js npm --silent run test -- --no-parallel --reporter min",
+        "service": "node index.js",
+        "service:host": "node index.js --hostOnly",
+        "service:watch": "nodemon index.js"
+    },
+    "nodemonConfig": {
+        "ignore": [
+            "**/*.spec.ts",
+            ".git",
+            ".vscode",
+            "node_modules"
+        ],
+        "watch": [
+            "."
+        ]
+    },
+    "mocha": {
+        "spec": [
+            "test/*.spec.js"
+        ],
+        "grep": "@broken|@slow",
+        "invert": true,
+        "parallel": true,
+        "watch": false,
+        "sort": false,
+        "forbitOnly": true,
+        "check-leaks": true,
+        "global": []
+    },
+    "eslintConfig": {
+        "extends": [
+            "@johntalton/eslint-config/js",
+            "@johntalton/eslint-config/node"
+        ],
+        "ignorePatterns": "test/**",
+        "env": {
+            "node": true
+        },
+        "rules": {
+            "max-len": [
+                "warn",
+                {
+                    "code": 120
+                }
+            ],
+            "fp/no-class": "off",
+            "fp/no-nil": "off",
+            "fp/no-mutation": "off",
+            "immutable/no-mutation": "off",
+            "fp/no-unused-expression": "off",
+            "spellcheck/spell-checker": [
+                "error",
+                {
+                    "minLength": 4,
+                    "skipWords": [
+                        "favicon",
+                        "namespace",
+                        "promisified",
+                        "Uint",
+                        "alloc",
+                        "errno",
+                        "addr",
+                        "argv",
+                        "morgan",
+                        "uuidv4"
+                    ]
+                }
+            ]
+        }
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/johntalton/i2c-port-webapp.git"
+    },
+    "author": "johntalton@gmail.com",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/johntalton/i2c-port-webapp/issues"
+    },
+    "homepage": "https://github.com/johntalton/i2c-port-webapp#readme"
+}

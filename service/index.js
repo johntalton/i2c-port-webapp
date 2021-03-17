@@ -11,8 +11,8 @@ import WebSocket from 'ws'
 // const { v4: uuidv4 } = require('uuid');
 import morgan from 'morgan'
 
-import { MessageTransform } from './message-transform.js'
-import { USBDetection } from './usb-detector.js'
+import { MessageTransform } from './utils/message-transform.js'
+// import { USBDetection } from './usb-detector.js'
 
 
 const hostOnly = process.argv.includes('--hostOnly')
@@ -20,7 +20,7 @@ const MORGAN_EXT = ':status :method :url HTTP/:http-version  :remote-addr @ :res
 
 const app = express()
   .use(morgan(MORGAN_EXT))
-  .use('/', express.static('example/web', { extensions: ['js'] }))
+  .use('/', express.static('../web', { extensions: ['js'] }))
   .use((req, res, next) => { if(req.path === '/favicon.ico') { res.status(200).end(); return } next() })
   .use((req, res, next) => next(new Error('🎁 ' + req.originalUrl)))
 
@@ -126,9 +126,9 @@ if(!hostOnly) {
     }
   }
 
-  const serviceUrl = './example/i2c-mcp2111-worker.js'
-  // const serviceUrl = './example/i2c-script-worker.js'
-  // const serviceUrl = './example/service-worker.js'
+  const serviceUrl = './workers/i2c-mcp2111-worker.js'
+  // const serviceUrl = './i2c-script-worker.js'
+  // const serviceUrl = './service-worker.js'
 
   const i2cWorker = new Worker(serviceUrl, {
     // name: 'I2C',

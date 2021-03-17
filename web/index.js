@@ -1,11 +1,8 @@
+import { I2CAddressedBus } from '@johntalton/and-other-delights'
+import { Tca9548a } from '@johntalton/tca9548a'
+import { BoschIEU } from '@johntalton/boschieu'
+
 import { I2CWebBus } from './i2c-web-bus.js'
-
-//import { I2CAddressedBus } from './i2c-addressed.js'
-import { I2CAddressedBus } from './node_modules/@johntalton/and-other-delights/src/aod.mjs'
-//import { I2CAddressedBus } from './aod.min.js'
-
-import { Tca9548a } from './node_modules/@johntalton/tca9548a/src/index.js'
-import { BoschIEU } from './node_modules/@johntalton/boschieu/src/boschieu.js'
 
 async function connect() {
   const ws = new WebSocket('ws://localhost:9000/bus/1', [ 'i2c', 'json' ])
@@ -14,15 +11,18 @@ async function connect() {
   //ws.onopen = event => sendTestScript(ws)
   //ws.onmessage = event => ui_insert(MessageTransform.stringMessageToMessage(event.data))
 
-  const bus = await I2CWebBus.openPromisified(ws)
+  const bus = I2CWebBus.from(ws)
 
   ws.onopen = event => connectToBus(bus)
   ws.onmessage = event => I2CWebBus.onMessage(bus, event.data)
-
 }
 
 async function connectToBus(bus) {
   ui_setScan(async () => {
+    const sensor = await BoschIEU.detect(I2CAddressedBus.from(bus, 0x77))
+    console.log('0x77', sensor.chip.name)
+  })
+  /*ui_setScan(async () => {
     const ab = new I2CAddressedBus(bus, 0x70)
     const tca = await Tca9548a.from(ab)
 
@@ -48,13 +48,12 @@ async function connectToBus(bus) {
         console.warn('tca exception', e)
       }
     }
-  })
+  })*/
 }
 
-
-const uiScriptElem = document.querySelector('script[src = "./ui.js"]')
-uiScriptElem.onload = event => console.log('ui Load', event)
-
-connect()
+// const uiScriptElem = document.querySelector('script[src = "./ui.js"]')
+// uiScriptElem.onload = event => console.log('ui Load', event)
 
 document.addEventListener("DOMContentLoaded", () => { console.log('DOM Content Loaded');  })
+
+connect()

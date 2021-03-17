@@ -1,5 +1,5 @@
 {
-  "name": "example-sensor-via-websocket-i2c",
+  "name": "@johntalton/i2c-port-webapp",
   "version": "1.0.0",
   "description": "A demo of running a WebSocket service for I2C transactions",
   "type": "module",

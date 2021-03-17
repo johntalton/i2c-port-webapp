@@ -1,11 +1,9 @@
 /* eslint-disable max-classes-per-file */
-//import { I2CBus } from './node_modules/@johntalton/and-other-delights/lib/aod.js'
-
 import { MessageTransform } from './message-transform.js'
 
 export class I2CWebBus /* extends I2CBus */ {
-  static openPromisified(ws) {
-    return Promise.resolve(new I2CWebBus(ws))
+  static from(ws) {
+    return new I2CWebBus(ws)
   }
 
   /**
