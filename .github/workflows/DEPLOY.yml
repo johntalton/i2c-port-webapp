@@ -18,3 +18,6 @@ jobs:
           name: static-site
           path: web
           retention-days: 1
+      - run: |
+          git config user.name DeployBot
+          git config user.email deploy@localhost.local
